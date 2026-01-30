@@ -83,8 +83,8 @@
     state: import
     name: all
     login_user: "{{ user }}"
-    # login_password: "{{ mysql_root_password }}" 
-    login_password: "{{ lookup('amazon.aws.aws_ssm', '/expense/mysql/mysql_root_password', region='us-east-1', decrypt=True) }}"
+    login_password: "{{ mysql_root_password }}" 
+    # login_password: "{{ lookup('amazon.aws.aws_ssm', '/expense/mysql/mysql_root_password', region='us-east-1', decrypt=True) }}"
     login_host: "{{ mysql_host }}"
     target: /app/schema/backend.sql
 

@@ -1,5 +1,5 @@
 mysql_host: "{{ MY_SQL_HOST }}"
-# mysql_root_password: ExpenseApp@1
+mysql_root_password: ExpenseApp1
 user: root
 APPLOCATION: /app
 COMPONENT: "{{ COMPONENT }}"
