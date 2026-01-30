@@ -3,7 +3,7 @@
   become: yes
   # vars_files:
   #   - roles/backend/vars/vault.yaml
-  vars_files:
-    - "vars-{{ ENVIRONMENT }}.yaml"
+  # vars_files:
+  #   - "vars-{{ ENVIRONMENT }}.yaml"
   roles:
     - "{{ COMPONENT }}"
