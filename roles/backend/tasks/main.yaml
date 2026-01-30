@@ -1,0 +1,91 @@
+- name: install pip
+  ansible.builtin.pip:
+    name:
+      - PyMySQL
+      - cryptography
+    executable: pip3.9
+
+- name: Disable default nodejs
+  ansible.builtin.package:
+    name: nodejs
+    state: removed
+
+- name: Enable nodejs 20
+  ansible.builtin.package:
+    name: nodejs
+    state: present
+    enablerepo: nodejs:20
+
+# - name: disable nodejs
+#   ansible.builtin.command: "dnf module disable nodejs -y"
+
+# - name: enable nodejs
+#   ansible.builtin.command: "dnf module enable nodejs:20 -y"
+
+- name: install nodejs and mysql
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nodejs
+    - mysql
+
+- name: user add
+  ansible.builtin.user:
+    name: expense
+
+# - name: include common role
+#   include_role:
+#     name: common
+
+# - name: import roles from common
+#   ansible.builtin.import_role:
+#     name: common
+#     tasks_from: main
+
+# - name: Create a directory
+#   ansible.builtin.file:
+#     path: /app
+#     state: directory
+  
+# - name: download package
+#   ansible.builtin.get_url:
+#     url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+#     dest: /tmp/backend.zip
+
+# - name: unzip backend code
+#   ansible.builtin.unarchive:
+#     src: /tmp/backend.zip
+#     dest: /app
+#     remote_src: yes
+
+- name: npm package install
+  tags:
+    - deployment
+  community.general.npm:
+    path: /app
+
+- name: copy file
+  ansible.builtin.template:
+    src: backend.service.j2
+    dest: /etc/systemd/system/backend.service
+
+- name: Connect to mysql server
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    login_user: "{{ user }}"
+    # login_password: "{{ mysql_root_password }}" 
+    login_password: "{{ lookup('amazon.aws.aws_ssm', '/expense/mysql/mysql_root_password', region='us-east-1', decrypt=True) }}"
+    login_host: "{{ mysql_host }}"
+    target: /app/schema/backend.sql
+
+
+- name: backend daemon reload
+  tags:
+    - deployment
+  ansible.builtin.systemd:
+      name: backend
+      daemon_reload: true
+      state: restarted
+      enabled: true

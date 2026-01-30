@@ -1,0 +1,21 @@
+- name: Delete directory
+  tags:
+    - deployment
+  ansible.builtin.file:
+    path: "{{ APPLOCATION }}"
+    state: absent
+
+- name: Create a directory
+  tags:
+    - deployment
+  ansible.builtin.file:
+    path: "{{ APPLOCATION }}"
+    state: directory
+
+- name: unzip backend code
+  tags:
+    - deployment
+  ansible.builtin.unarchive:
+    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{ COMPONENT }}-v2.zip
+    dest: "{{ APPLOCATION }}"
+    remote_src: yes

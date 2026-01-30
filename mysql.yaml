@@ -1,0 +1,7 @@
+- name: mysql
+  hosts: mysql
+  become: yes
+  # vars_files:
+  # - roles/backend/vars/vault.yaml
+  roles:
+    - mysql
