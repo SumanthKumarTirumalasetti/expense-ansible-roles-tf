@@ -3,7 +3,7 @@
     name:
       - PyMySQL
       - cryptography
-    executable: pip3
+    executable: pip3.9
 
 - name: Disable default nodejs
   ansible.builtin.package:
