@@ -1,4 +1,4 @@
-mysql_host: "{{ MY_SQL_HOST }}"
+mysql_host: mysql-dev.devopspractice.help
 mysql_root_password: ExpenseApp1
 user: root
 APPLOCATION: /app
