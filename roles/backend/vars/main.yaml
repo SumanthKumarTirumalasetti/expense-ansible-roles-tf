@@ -1,5 +1,5 @@
 mysql_host: mysql-dev.devopspractice.help
-mysql_root_password: Expenseapp1
+# mysql_root_password: Expenseapp1
 user: root
 APPLOCATION: /app
 COMPONENT: "{{ COMPONENT }}"
