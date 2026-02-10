@@ -1,11 +1,22 @@
 [Unit]
-Description = Backend Service
+Description=Backend Service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
+Type=simple
 User=expense
+WorkingDirectory=/app
+
 Environment=DB_HOST={{ mysql_host }}
+
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
 
+# Auto-restart settings
+Restart=always
+RestartSec=5
+
 [Install]
 WantedBy=multi-user.target
+
