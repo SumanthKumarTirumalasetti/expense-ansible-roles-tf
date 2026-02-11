@@ -37,9 +37,9 @@
 #     name: common
 #     tasks_from: main
 
-# - name: include common role
-#   include_role:
-#     name: common
+- name: include common role
+  include_role:
+    name: common
   
 
 - name: copy file
